@@ -8,5 +8,5 @@
 import Foundation
 
 struct NetworkDesignSettings {
-    var useCidr: Bool = true // default to value of false
+    var useCidr: Bool = false // default to value of false
 }

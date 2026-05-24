@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NetworkDesignView: View {
-    @State private var cidr: Cidr = .zero
+    @State private var cidr: Cidr = .thirtyTwo
     @State private var prefixOne: String = ""
     @State private var prefixTwo: String = ""
     @State private var prefixThree: String = ""
@@ -18,7 +18,11 @@ struct NetworkDesignView: View {
     
     @Environment(\.dismiss) private var dismissNetworkDesignSettingsSheet
     
-    @StateObject var networkDesignSettingsViewModel = NetworkDesignViewModel()
+    @FocusState private var isFocused: Bool // dismiss keyboard
+    
+    @StateObject var networkDesignViewModel = NetworkDesignViewModel()
+    
+    @AppStorage("useCidr") var useCidr: Bool = false // save setting
     
     var body: some View {
         NavigationStack {
@@ -26,21 +30,24 @@ struct NetworkDesignView: View {
                 Section(header: Text("Network Address: \(checkPrefixEmpty(prefixOne)).\(checkPrefixEmpty(prefixTwo)).\(checkPrefixEmpty(prefixThree)).0/\(cidr.rawValue)")) {
                     TextField("First Prefix", text: $prefixOne)
                         .keyboardType(.numberPad)
+                        .focused($isFocused)
                     TextField("Second Perfix", text: $prefixTwo)
                         .keyboardType(.numberPad)
+                        .focused($isFocused)
                     TextField("Third Prefix", text: $prefixThree)
                         .keyboardType(.numberPad)
+                        .focused($isFocused)
                     Text("Fourth Prefix: 0")
-                    if networkDesignSettingsViewModel.networkDesignSettings.useCidr {
+                    if useCidr {
                         Picker("CIDR", selection: $cidr) {
-                            ForEach(Cidr.allCases, id: \.self) { cidrOption in
+                            ForEach(Cidr.allCases.reversed(), id: \.self) { cidrOption in
                                 Text("/\(String(cidrOption.rawValue))")
                             }
                         }
                     } else {
                         Picker("Total IPs", selection: $cidr) {
-                            ForEach(Cidr.allCases, id: \.self) { cidrOption in
-                                Text(String(cidrOption.rawValue))
+                            ForEach(Cidr.allCases.reversed(), id: \.self) { cidrOption in
+                                Text(networkDesignViewModel.getTotalIps(cidr: cidrOption.rawValue))
                             }
                         }
                     }
@@ -49,6 +56,9 @@ struct NetworkDesignView: View {
                     Button("Calculate Pool") {
                         // open NetworkDetailsView in a sheet
                         isShowingNetworkDetailsSheet = true
+                        
+                        // dismiss keyboard
+                        isFocused = false
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -57,20 +67,11 @@ struct NetworkDesignView: View {
             .sheet(isPresented: $isShowingNetworkDetailsSheet, content: {
                 NavigationStack {
                     NetworkDetailsView(isPresented: isShowingNetworkDetailsSheet, prefixOne: convertPrefixToInt(checkPrefixEmpty(prefixOne)), prefixTwo: convertPrefixToInt(checkPrefixEmpty(prefixTwo)), prefixThree: convertPrefixToInt(checkPrefixEmpty(prefixThree)), cidr: cidr.rawValue)
-                        /* .toolbar {
-                            ToolbarItem(placement: .topBarTrailing) {
-                                Button(action: {
-                                    isShowingNetworkDetailsSheet = false
-                                }, label: {
-                                    Image(systemName: "xmark")
-                                })
-                            }
-                        } */
                 }
             })
             .sheet(isPresented: $isShowingNetworkDesignSettingsSheet, content: {
                 NavigationStack {
-                    NetworkDesignSettingsView(useCidr: $networkDesignSettingsViewModel.networkDesignSettings.useCidr)
+                    NetworkDesignSettingsView(useCidr: $useCidr)
                         .toolbar {
                             ToolbarItem(placement: .topBarTrailing) {
                                 Button(action: {

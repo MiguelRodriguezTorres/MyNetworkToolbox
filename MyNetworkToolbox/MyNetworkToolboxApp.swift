@@ -11,7 +11,7 @@ import SwiftUI
 struct MyNetworkToolboxApp: App {
     var body: some Scene {
         WindowGroup {
-            MenuView()
+            MenuTabView()
         }
     }
 }

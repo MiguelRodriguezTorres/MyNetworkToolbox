@@ -50,7 +50,7 @@ struct NetworkDetailsViewModel { // why no class?
     }
     
     // function to get total IP addresses in network
-    func getTotalIps(cidr: Int) -> Int {
+    private func getTotalIps(cidr: Int) -> Int {
         // get host bits
         let hostBits = 32 - cidr
         
