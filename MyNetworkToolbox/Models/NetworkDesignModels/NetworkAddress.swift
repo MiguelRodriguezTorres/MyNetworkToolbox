@@ -8,7 +8,7 @@
 import Foundation
 
 // IpPool Struct
-struct IpPool: IpAddress {
+struct NetworkAddress: IpAddress {
     let prefixOne: Int
     let prefixTwo: Int
     let prefixThree: Int

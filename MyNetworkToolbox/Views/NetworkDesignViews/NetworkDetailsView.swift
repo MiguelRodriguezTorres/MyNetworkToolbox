@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NetworkDetailsView: View {
-    @Environment(\.dismiss) private var dismiss // ref: https://www.swiftbysundell.com/articles/dismissing-swiftui-modal-and-detail-views/
+    @Environment(\.dismiss) private var dismissNetworkDetailsSheet // ref: https://www.swiftbysundell.com/articles/dismissing-swiftui-modal-and-detail-views/
     
     var prefixOne: Int
     let prefixTwo: Int
@@ -23,7 +23,7 @@ struct NetworkDetailsView: View {
         self.cidr = cidr
         
         // initialize networkDetailsViewModel after self initialization
-        self.networkDetailsViewModel = NetworkDetailsViewModel(ipPool: IpPool(prefixOne, prefixTwo, prefixThree, slash: cidr))
+        self.networkDetailsViewModel = NetworkDetailsViewModel(ipPool: NetworkAddress(prefixOne, prefixTwo, prefixThree, slash: cidr))
         //self.$isPresented = isPresented
     }
     
@@ -39,7 +39,7 @@ struct NetworkDetailsView: View {
                 }
                 Section {
                     Button("Close") {
-                        dismiss()
+                        dismissNetworkDetailsSheet()
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -50,5 +50,5 @@ struct NetworkDetailsView: View {
 }
 
 #Preview {
-    NetworkDetailsView(isPresented: true, prefixOne: 0, prefixTwo: 0, prefixThree: 0, cidr: Cidr.RawValue.zero)
+    NetworkDetailsView(isPresented: true, prefixOne: 192, prefixTwo: 168, prefixThree: 86, cidr: Cidr.twentyThree.rawValue)
 }

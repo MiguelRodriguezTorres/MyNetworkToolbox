@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct NetworkDetailsViewModel {
+struct NetworkDetailsViewModel { // why no class?
     // NetworkDetailsViewModel Properties
-    let ipPool: IpPool
+    let ipPool: NetworkAddress
     
     var subnetMask: String {
         getSubnetMask(cidr: ipPool.cidr)
@@ -50,7 +50,7 @@ struct NetworkDetailsViewModel {
     }
     
     // function to get total IP addresses in network
-    func getTotalIps(cidr: Int) -> Int {
+    private func getTotalIps(cidr: Int) -> Int {
         // get host bits
         let hostBits = 32 - cidr
         
