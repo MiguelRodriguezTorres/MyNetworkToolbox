@@ -15,7 +15,7 @@ struct MenuView: View {
 //                .foregroundStyle(.tint)
             Form {
                 Section {
-                    NavigationLink(destination: GatherNetworkDetailsView()) {
+                    NavigationLink(destination: NetworkDesignView()) {
                         Text("Create a Network")
                     }
                 }

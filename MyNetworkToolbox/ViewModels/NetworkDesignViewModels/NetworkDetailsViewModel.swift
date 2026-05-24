@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct NetworkDetailsViewModel {
+struct NetworkDetailsViewModel { // why no class?
     // NetworkDetailsViewModel Properties
-    let ipPool: IpPool
+    let ipPool: NetworkAddress
     
     var subnetMask: String {
         getSubnetMask(cidr: ipPool.cidr)
