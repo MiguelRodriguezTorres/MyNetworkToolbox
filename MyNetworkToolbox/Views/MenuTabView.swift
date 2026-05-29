@@ -12,7 +12,7 @@ struct MenuTabView: View {
         TabView {
             NetworkDesignView()
                 .tabItem {
-                    Label("Network", systemImage: "network")
+                    Label("Design", systemImage: "pencil")
                 }
             AboutView()
                 .tabItem {

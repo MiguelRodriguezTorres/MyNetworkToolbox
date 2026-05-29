@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+// icons
+enum Icons: String, CaseIterable {
+    case leaf = "leaf.fill"
+    case cat = "cat.fill"
+    case iPhone = "iphone"
+    case laptop = "laptopcomputer"
+}

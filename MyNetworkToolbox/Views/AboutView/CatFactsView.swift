@@ -8,17 +8,31 @@
 import SwiftUI
 
 struct CatFactsView: View {
+    private var catFactsViewModel = CatFactsViewModel()
+    
+    @State private var catFact: String = ""
+    
     var body: some View {
-        NavigationStack {
-            VStack {
-                Text("Here's a cat fact for you. Did you know...")
-                    .padding(.top, 40)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Spacer()
-            }
-            .padding(.leading, 15)
-            .navigationTitle(Text("Cat Facts!"))
+        VStack {
+            Text("Here's a cat fact for you. Did you know...\n\n\(catFact)")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .task { // use task view modifier for async task
+                    print(try! await catFactsViewModel.getCatFact())
+                    
+                    let gatoFact = try! await catFactsViewModel.getCatFact()
+                    catFact = gatoFact.fact
+                }
+//            Button(action: {
+//                Task {
+//                    print(try await catFactsViewModel.getCatFact())
+//                }
+//            }, label: {
+//                Text("Button")
+//            })
+            Spacer()
         }
+        .padding(.leading, 15)
+        .navigationTitle(Text("Cat Facts!"))
     }
 }
 
