@@ -14,6 +14,10 @@ struct MenuTabView: View {
                 .tabItem {
                     Label("Design", systemImage: "pencil")
                 }
+            GeneratePasswordView()
+                .tabItem {
+                    Label("Passwords", systemImage: "key.fill")
+                }
             AboutView()
                 .tabItem {
                     Label("About", systemImage: "info.circle")
