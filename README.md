@@ -11,3 +11,7 @@ Laguage used:
 Frameworks used:
 
 * SwiftUI
+
+Swift technology used:
+
+* UserDefaults(AppStorage)

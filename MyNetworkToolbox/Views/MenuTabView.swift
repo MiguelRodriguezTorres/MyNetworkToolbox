@@ -12,7 +12,11 @@ struct MenuTabView: View {
         TabView {
             NetworkDesignView()
                 .tabItem {
-                    Label("Network", systemImage: "network")
+                    Label("Design", systemImage: "pencil")
+                }
+            AboutView()
+                .tabItem {
+                    Label("About", systemImage: "info.circle")
                 }
         }
         //.tabViewStyle(PageTabViewStyle())
